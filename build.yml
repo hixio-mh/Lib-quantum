@@ -1,0 +1,28 @@
+#
+# Build configuration file to run build on azure-pipelines
+#
+name: $(Build.Major).$(Build.Minor).$(date:yyMM).$(DayOfMonth)$(rev:rr)
+trigger:
+- master
+- feature/*
+
+variables:
+  Build.Major: 0
+  Build.Minor: 10
+  Drops.Dir: $(Build.ArtifactStagingDirectory)/drops
+
+jobs:
+- job: Windows
+  pool: 'Hosted VS2017'
+  steps:
+  - template: Build/steps.yml
+- job: macOS
+  pool: 'Hosted macOS'
+  steps:
+  - template: Build/steps.yml
+- job: Linux
+  pool: 'Hosted Ubuntu 1604'
+  steps:
+  - template: Build/steps.yml
+
+
