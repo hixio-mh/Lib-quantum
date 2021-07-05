@@ -1,0 +1,30 @@
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK 3.1.100'
+  inputs:
+    packageType: sdk
+    version: '3.1.100'
+
+- powershell: |
+    Install-Module -Force Pester -Scope CurrentUser
+    Install-Module -Force platyPS -Scope CurrentUser
+  displayName: "Install PowerShell build requirements."
+
+- powershell: ./build.ps1
+  displayName: "Building"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+
+
+- powershell: ./test.ps1
+  displayName: "Testing"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+  condition: and(succeeded(), ne(variables['Skip.Tests'], 'true'))
+
+
+- powershell: ./pack.ps1
+  displayName: "Pack"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+
+
+- template: step-wrap-up.yml
