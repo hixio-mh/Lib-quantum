@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.Quantum.Sdk/0.12.20072301-beta">
+
+  <Import Project="..\..\..\Build\props\tests.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IncludeQsharpCorePackages>false</IncludeQsharpCorePackages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Runtime\Runtime.csproj" />
+  </ItemGroup>
+
+</Project>
+
